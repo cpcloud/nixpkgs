@@ -2005,6 +2005,8 @@ in
 
   home-manager = callPackage ../tools/package-management/home-manager {};
 
+  honeytail = callPackage ../misc/logging/honeytail { };
+
   hostsblock = callPackage ../tools/misc/hostsblock { };
 
   hopper = qt5.callPackage ../development/tools/analysis/hopper {};
