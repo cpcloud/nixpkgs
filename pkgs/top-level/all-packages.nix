@@ -1364,6 +1364,8 @@ in
     then python.pkgs.tensorflow.libtensorflow
     else libtensorflow-bin;
 
+  tensorflow-lite = callPackage ../development/libraries/science/math/tensorflow-lite { };
+
   behdad-fonts = callPackage ../data/fonts/behdad-fonts { };
 
   bless = callPackage ../applications/editors/bless { };
