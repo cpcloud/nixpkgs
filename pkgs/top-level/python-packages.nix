@@ -738,6 +738,9 @@ in {
 
   diff-match-patch = callPackage ../development/python-modules/diff-match-patch { };
 
+  edgetpu-std = callPackage ../development/python-modules/edgetpu { enableMax = false; };
+  edgetpu-max = callPackage ../development/python-modules/edgetpu { enableMax = true; };
+
   eliot = callPackage ../development/python-modules/eliot {};
 
   entrance = callPackage ../development/python-modules/entrance { routerFeatures = false; };
