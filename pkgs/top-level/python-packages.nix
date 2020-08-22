@@ -753,6 +753,12 @@ in {
 
   azure-mgmt-consumption = callPackage ../development/python-modules/azure-mgmt-consumption { };
 
+  edgetpu-std = callPackage ../development/python-modules/edgetpu { enableMax = false; };
+
+  edgetpu-max = callPackage ../development/python-modules/edgetpu { enableMax = true; };
+
+  eliot = callPackage ../development/python-modules/eliot {};
+
   azure-mgmt-containerinstance = callPackage ../development/python-modules/azure-mgmt-containerinstance { };
 
   azure-mgmt-containerregistry = callPackage ../development/python-modules/azure-mgmt-containerregistry { };
