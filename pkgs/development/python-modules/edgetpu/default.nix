@@ -8,8 +8,7 @@
 , lib
 , python
 , enableMax
-, libedgetpu-max
-, libedgetpu-std
+, libedgetpu
 }:
 let
   sha256s = {
@@ -25,8 +24,9 @@ let
     aarch64-linux = "arm64";
   };
   debArch = debArchs.${system};
-
-  libedgetpu = if enableMax then libedgetpu-max else libedgetpu-std;
+  buildInputs = [
+    libedgetpu.${if enableMax then "max" else "std"}
+  ];
 in
 buildPythonPackage rec {
   pname = "python3-edgetpu";
@@ -38,7 +38,7 @@ buildPythonPackage rec {
   };
 
   nativeBuildInputs = [ dpkg autoPatchelfHook ];
-  buildInputs = [ libedgetpu ];
+  inherit buildInputs;
   propagatedBuildInputs = [ numpy pillow ];
   format = "other";
 

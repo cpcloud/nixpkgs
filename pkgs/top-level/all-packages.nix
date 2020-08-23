@@ -1389,9 +1389,15 @@ in
 
   tensorflow-lite = callPackage ../development/libraries/science/math/tensorflow-lite { };
 
-  libedgetpu-std = callPackage ../development/libraries/science/robotics/libedgetpu { enableMax = false; };
-
-  libedgetpu-max = callPackage ../development/libraries/science/robotics/libedgetpu { enableMax = true; };
+  libedgetpu = rec {
+    std = callPackage ../development/libraries/science/robotics/libedgetpu { enableMax = false; };
+    max = callPackage ../development/libraries/science/robotics/libedgetpu { enableMax = true; };
+    dev = std.dev;
+    posenet = callPackage ../development/libraries/science/robotics/libedgetpu-utils/posenet { };
+    utils = callPackage ../development/libraries/science/robotics/libedgetpu-utils/utils { };
+    basic = callPackage ../development/libraries/science/robotics/libedgetpu-utils/basic { };
+    tools = callPackage ../development/libraries/science/robotics/libedgetpu-utils/tools { };
+  };
 
   edgetpu-compiler = callPackage ../applications/misc/edgetpu-compiler { };
 

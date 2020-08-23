@@ -1,0 +1,12 @@
+diff --git a/src/cpp/posenet/posenet_decoder_tflite_plugin.cc b/src/cpp/posenet/posenet_decoder_tflite_plugin.cc
+index ae28f8d..815a10c 100644
+--- a/src/cpp/posenet/posenet_decoder_tflite_plugin.cc
++++ b/src/cpp/posenet/posenet_decoder_tflite_plugin.cc
+@@ -3,6 +3,7 @@
+ #include <cstring>
+ #include <set>
+ #include <vector>
++#include <memory>
+ 
+ #include "src/cpp/posenet/posenet_decoder_op.h"
+ #include "tensorflow/lite/builtin_op_data.h"
