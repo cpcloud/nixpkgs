@@ -9,10 +9,10 @@
 , opt-einsum
 , termcolor, grpcio, six, wrapt, protobuf, tensorflow-estimator_2
 # Common deps
-, git, swig, which, binutils, glibcLocales, cython
+, git, swig, which, binutils, glibcLocales, cython, pybind11
 # Common libraries
 , jemalloc, openmpi, astor, gast, grpc, sqlite, openssl, jsoncpp, re2
-, curl, snappy, flatbuffers, icu, double-conversion, libpng, libjpeg, giflib
+, curl, snappy, flatbuffers, icu, double-conversion, libpng, libjpeg_turbo, giflib
 # Upsteam by default includes cuda support since tensorflow 1.15. We could do
 # that in nix as well. It would make some things easier and less confusing, but
 # it would also make the default tensorflow package unfree. See
@@ -140,7 +140,7 @@ let
       icu
       double-conversion
       libpng
-      libjpeg
+      libjpeg_turbo
       giflib
       re2
       pkgs.lmdb
@@ -179,9 +179,9 @@ let
       # "grpc"
       "hwloc"
       "icu"
-      "jpeg"
       "jsoncpp_git"
       "keras_applications_archive"
+      "libjpeg_turbo"
       "lmdb"
       "nasm"
       # "nsync" # not packaged in nixpkgs
@@ -189,12 +189,13 @@ let
       "org_sqlite"
       "pasta"
       "pcre"
+      "png"
+      "pybind11"
       "six_archive"
       "snappy"
-      "swig"
       "termcolor_archive"
       "wrapt"
-      "zlib_archive"
+      "zlib"
     ];
 
     INCLUDEDIR = "${includes_joined}/include";
