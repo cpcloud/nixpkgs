@@ -108,7 +108,7 @@ let
 
     patches = [
       # Fixes for NixOS jsoncpp
-      ../system-jsoncpp.patch
+      ./system-jsoncpp.patch
 
       # cuda 10.2 does not have "-bin2c-path" option anymore
       # https://github.com/tensorflow/tensorflow/issues/34429
