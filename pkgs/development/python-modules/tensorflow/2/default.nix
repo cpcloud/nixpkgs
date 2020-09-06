@@ -180,7 +180,6 @@ let
       "hwloc"
       "icu"
       "jsoncpp_git"
-      "keras_applications_archive"
       "libjpeg_turbo"
       "lmdb"
       "nasm"
