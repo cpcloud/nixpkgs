@@ -97,6 +97,7 @@ let
 
   bazel-build = buildBazelPackage {
     name = "${pname}-${version}";
+    removeRulesCC = false;
     bazel = bazel_3;
 
     src = fetchFromGitHub {
