@@ -1,4 +1,4 @@
-{ stdenv, pkgs, bazel_0_29, buildBazelPackage, lib, fetchFromGitHub, fetchpatch, symlinkJoin
+{ stdenv, pkgs, bazel_3, buildBazelPackage, lib, fetchFromGitHub, fetchpatch, symlinkJoin
 , addOpenGLRunpath
 # Python deps
 , buildPythonPackage, isPy3k, isPy27, pythonOlder, pythonAtLeast, python
@@ -72,7 +72,7 @@ let
 
   tfFeature = x: if x then "1" else "0";
 
-  version = "2.1.0";
+  version = "2.3.0";
   variant = if cudaSupport then "-gpu" else "";
   pname = "tensorflow${variant}";
 
@@ -97,36 +97,18 @@ let
 
   bazel-build = buildBazelPackage {
     name = "${pname}-${version}";
-    bazel = bazel_0_29;
+    bazel = bazel_3;
 
     src = fetchFromGitHub {
       owner = "tensorflow";
       repo = "tensorflow";
       rev = "v${version}";
-      sha256 = "1g79xi8yl4sjia8ysk9b7xfzrz83zy28v5dlb2wzmcf0k5pmz60p";
+      sha256 = "1dd5fgyiazyfy7y2iv4v42qnap51fr6dzwb26inrsj7aaas06j71";
     };
 
     patches = [
-      # Work around https://github.com/tensorflow/tensorflow/issues/24752
-      ../no-saved-proto.patch
       # Fixes for NixOS jsoncpp
       ../system-jsoncpp.patch
-
-      (fetchpatch {
-        name = "backport-pr-18950.patch";
-        url = "https://github.com/tensorflow/tensorflow/commit/73640aaec2ab0234d9fff138e3c9833695570c0a.patch";
-        sha256 = "1n9ypbrx36fc1kc9cz5b3p9qhg15xxhq4nz6ap3hwqba535nakfz";
-      })
-
-      (fetchpatch {
-        # Don't try to fetch things that don't exist
-        name = "prune-missing-deps.patch";
-        url = "https://github.com/tensorflow/tensorflow/commit/b39b1ed24b4814db27d2f748dc85c10730ae851d.patch";
-        sha256 = "1skysz53nancvw1slij6s7flar2kv3gngnsq60ff4lap88kx5s6c";
-        excludes = [ "tensorflow/cc/saved_model/BUILD" ];
-      })
-
-      ./lift-gast-restriction.patch
 
       # cuda 10.2 does not have "-bin2c-path" option anymore
       # https://github.com/tensorflow/tensorflow/issues/34429
