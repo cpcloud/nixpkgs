@@ -109,6 +109,10 @@ let
     patches = [
       # Fixes for NixOS jsoncpp
       ./system-jsoncpp.patch
+
+      # Patch to use a later bazel version, release states that 3.1.0 is the _minimum_
+      # required version
+      ./bazel-version.patch
     ];
 
     # On update, it can be useful to steal the changes from gentoo
