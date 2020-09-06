@@ -98,6 +98,8 @@ let
   bazel-build = buildBazelPackage {
     name = "${pname}-${version}";
     removeRulesCC = false;
+    removeLocalConfigCc = false;
+    removeLocal = false;
     bazel = bazel_3;
 
     src = fetchFromGitHub {
