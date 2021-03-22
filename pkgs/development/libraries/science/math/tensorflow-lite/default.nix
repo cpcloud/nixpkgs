@@ -26,12 +26,10 @@ let
     };
     patches = [
       ./eigen_include_dir.patch
-      (
-        fetchpatch {
-          url = "https://raw.githubusercontent.com/tensorflow/tensorflow/${tensorflow-commit}/third_party/eigen3/gpu_packet_math.patch";
-          sha256 = "08aqlvhg25vv7pp5drdwgmm6b3zw8x1f66kxxfq7pky9lwh2g36r";
-        }
-      )
+      (fetchpatch {
+        url = "https://raw.githubusercontent.com/tensorflow/tensorflow/${tensorflow-commit}/third_party/eigen3/gpu_packet_math.patch";
+        sha256 = "08aqlvhg25vv7pp5drdwgmm6b3zw8x1f66kxxfq7pky9lwh2g36r";
+      })
     ];
   });
 
@@ -70,7 +68,7 @@ let
 in
 stdenv.mkDerivation {
   pname = "tensorflow-lite";
-  version = "v2.2.0";
+  version = "2.2.0";
 
   src = fetchFromGitHub {
     owner = "tensorflow";
@@ -80,30 +78,22 @@ stdenv.mkDerivation {
   };
 
   patches = [
-    (
-      fetchpatch {
-        url = "https://github.com/tensorflow/tensorflow/commit/72cd947f231950d7ecd1406b5a67388fef7133ea.patch";
-        sha256 = "0hlz64nap6rbb0p06paxlb6dy702r5qhwghlzvwla3qm5w88rmw6";
-      }
-    )
-    (
-      fetchpatch {
-        url = "https://github.com/tensorflow/tensorflow/commit/b66f1593e8c4331890dff94ada5e13fbb2ac893b.patch";
-        sha256 = "04fbncpwajjlqhrhzqi0xxmvf9pg2flgyzsjlk6jhnrhkdgm5gmw";
-      }
-    )
-    (
-      fetchpatch {
-        url = "https://github.com/tensorflow/tensorflow/commit/ccbbc5846c8fadd8dfda27d1b4b47eeb496b0a78.patch";
-        sha256 = "05saq40qjws0lkl1zf9vn4v0yq929a8cf5wvvggjq34699fhjxbj";
-      }
-    )
-    (
-      fetchpatch {
-        url = "https://github.com/tensorflow/tensorflow/commit/20a904017c374fe58d67028453648e96cc7afb93.patch";
-        sha256 = "1dk6kxwv25yq6kp9rr59wc7lnf6pq7a6ssqc15b5nvclxx3h701g";
-      }
-    )
+    (fetchpatch {
+      url = "https://github.com/tensorflow/tensorflow/commit/72cd947f231950d7ecd1406b5a67388fef7133ea.patch";
+      sha256 = "0hlz64nap6rbb0p06paxlb6dy702r5qhwghlzvwla3qm5w88rmw6";
+    })
+    (fetchpatch {
+      url = "https://github.com/tensorflow/tensorflow/commit/b66f1593e8c4331890dff94ada5e13fbb2ac893b.patch";
+      sha256 = "04fbncpwajjlqhrhzqi0xxmvf9pg2flgyzsjlk6jhnrhkdgm5gmw";
+    })
+    (fetchpatch {
+      url = "https://github.com/tensorflow/tensorflow/commit/ccbbc5846c8fadd8dfda27d1b4b47eeb496b0a78.patch";
+      sha256 = "05saq40qjws0lkl1zf9vn4v0yq929a8cf5wvvggjq34699fhjxbj";
+    })
+    (fetchpatch {
+      url = "https://github.com/tensorflow/tensorflow/commit/20a904017c374fe58d67028453648e96cc7afb93.patch";
+      sha256 = "1dk6kxwv25yq6kp9rr59wc7lnf6pq7a6ssqc15b5nvclxx3h701g";
+    })
   ];
 
   buildInputs = [ zlib flatbuffers gmock ];
@@ -172,11 +162,11 @@ stdenv.mkDerivation {
     done
   '';
 
-  meta = {
+  meta = with; {
     description = "An open source deep learning framework for on-device inference.";
     homepage = "https://www.tensorflow.org/lite";
-    license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ cpcloud ];
+    license = licenses.asl20;
+    maintainers = with maintainers; [ cpcloud ];
     platforms = [ "x86_64-linux" "aarch64-linux" ];
   };
 }
