@@ -9,11 +9,11 @@
 
 python3.pkgs.buildPythonApplication rec {
   pname = "meson";
-  version = "0.57.1";
+  version = "0.58.0";
 
   src = python3.pkgs.fetchPypi {
     inherit pname version;
-    sha256 = "19n8alcpzv6npgp27iqljkmvdmr7s2c7zm8y997j1nlvpa1cgqbj";
+    sha256 = "1p9g334xnfxpgrzdcnla7p399viny6jqrbylkw0rk74npkq0v0pl";
   };
 
   patches = [
@@ -57,6 +57,22 @@ python3.pkgs.buildPythonApplication rec {
     # unsandboxed non-NixOS builds, see:
     # https://github.com/NixOS/nixpkgs/issues/86131#issuecomment-711051774
     ./boost-Do-not-add-system-paths-on-nix.patch
+
+    # Fix gtkdoc generation.
+    # Should be fixed in 0.58.1.
+    # https://github.com/mesonbuild/meson/pull/8757
+    (fetchpatch {
+      url = "https://github.com/mesonbuild/meson/commit/4e312c19e693a69b0650ce6c8a8903163c959996.patch";
+      sha256 = "qO5ZE0GXlCbIROQGKFdqYQB1h9r9eW/SPZ2Gi+0KmiE=";
+    })
+
+    # Fix nested environment().
+    # Should be fixed in 0.58.1.
+    # https://github.com/mesonbuild/meson/pull/8761
+    (fetchpatch {
+      url = "https://github.com/mesonbuild/meson/commit/501d7cf01c5578e98ab753fd09f6972f57824e50.patch";
+      sha256 = "8KAXuLQAItth/Pj/9ud3poothyIpYStI0S9BGRRkic8=";
+    })
   ];
 
   setupHook = ./setup-hook.sh;
