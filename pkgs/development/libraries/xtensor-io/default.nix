@@ -12,8 +12,11 @@
 , lib
 , libsndfile
 , openexr
+, openimageio
 , openimageio2
+, python3
 , stdenv
+, writeText
 , xtensor
 , zlib
 }:
@@ -26,6 +29,17 @@ let
     rev = version;
     sha256 = "0wnmqazdpxwz4jlp784hzqqw3xlxi320fwfblljp8mv7g92sfxs2";
   };
+  python3Env = python3.withPackages (p: with p; [ numpy ]);
+  genZlibTestData = writeText "gen_zlib_test_data.py" ''
+    import numpy as np
+    import zlib
+
+    data = np.array([3, 2, 1, 0], dtype="float64")
+    compressed = zlib.compress(data.tobytes(), level=1)
+
+    with open("files/test.zl", "wb") as f:
+        f.write(compressed)
+  '';
 in
 stdenv.mkDerivation {
   pname = "xtensor-io";
@@ -67,19 +81,15 @@ stdenv.mkDerivation {
   ];
 
   doCheck = true;
-  checkInputs = [ gtest ];
-  # preCheck = ''
-  #   echo $PWD
-  #   ls -ltr --color /build/source/test
-  #   echo "--------------------"
-  #   ls -ltr --color /build/source/build/test
-  #   echo "--------------------"
-  #   exit 1
-  # '';
+  checkInputs = [ gtest python3Env ];
   checkPhase = ''
     runHook preCheck
 
     pushd test
+
+    # this is needed for test_xio_zlib.cpp:xzlib.load
+    python "${genZlibTestData}"
+
     ./test_xtensor_io_ho
     ./test_xtensor_io_lib --gtest_filter="-xio_gcs_handler.read:xio_gdal_handler.read_vsigs:xio_gdal_handler.read_vsicurl"
     popd
