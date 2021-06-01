@@ -14564,6 +14564,8 @@ in
 
   cppdb = callPackage ../development/libraries/cppdb { };
 
+  cpp-filesystem = callPackage ../development/libraries/cpp-filesystem { };
+
   cpp-utilities = callPackage ../development/libraries/cpp-utilities { };
 
   cpp-hocon = callPackage ../development/libraries/cpp-hocon { };
@@ -18627,6 +18629,8 @@ in
   xsimd = callPackage ../development/libraries/xsimd { };
 
   xtensor = callPackage ../development/libraries/xtensor { };
+
+  xtensor-io = callPackage ../development/libraries/xtensor-io { };
 
   xtl = callPackage ../development/libraries/xtl { };
 
