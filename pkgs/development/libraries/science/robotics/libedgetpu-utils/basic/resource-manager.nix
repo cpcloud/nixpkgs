@@ -41,7 +41,6 @@ stdenv.mkDerivation {
       -labsl_debugging_internal \
       -labsl_demangle_internal \
       -labsl_symbolize \
-      -labsl_dynamic_annotations \
       -labsl_base \
       -Wl,--no-whole-archive \
       $PWD/src/cpp/basic/edgetpu_resource_manager.cc
