@@ -12,7 +12,6 @@
 , lib
 , libsndfile
 , openexr
-, openimageio
 , openimageio2
 , python3
 , stdenv
@@ -54,6 +53,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake ];
 
   propagatedBuildInputs = [
+    aws-sdk-cpp
     c-blosc
     cpp-filesystem
     crc32c
@@ -87,13 +87,17 @@ stdenv.mkDerivation rec {
   preCheck = ''
     python "${genZlibTestData}" test/files/test.zl
   '';
-  GTEST_FILTER = let
-    filteredTests = [
-      "xio_gcs_handler.read"  # accesses the internet
-      "xio_gdal_handler.read_vsicurl"  # accesses the internet
-      "xio_gdal_handler.read_vsigs"  # accesses a file that doesn't exist
-    ];
-  in "-${builtins.concatStringsSep ":" filteredTests}";
+  GTEST_FILTER =
+    let
+      filteredTests = [
+        "xio_gcs_handler.read" # accesses the internet
+        "xio_gdal_handler.read_vsicurl" # accesses the internet
+        "xio_gdal_handler.read_vsigs" # accesses a file that doesn't exist
+      ];
+    in
+    "-${builtins.concatStringsSep ":" filteredTests}";
+
+  NIX_CFLAGS_COMPILE = "-pthread";
 
   meta = with lib; {
     description = "Reading and writing image, sound and npz file formats to and from xtensor data structures.";
