@@ -53,7 +53,6 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake ];
 
   propagatedBuildInputs = [
-    aws-sdk-cpp
     c-blosc
     cpp-filesystem
     crc32c
