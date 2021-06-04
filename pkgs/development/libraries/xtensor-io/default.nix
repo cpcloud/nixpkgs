@@ -1,4 +1,8 @@
-{ c-blosc
+{ aws-sdk-cpp
+, aws-c-common
+, aws-c-event-stream
+, aws-checksums
+, c-blosc
 , cmake
 , cpp-filesystem
 , crc32c
@@ -13,7 +17,9 @@
 , libsndfile
 , openexr
 , openimageio2
+, pkg-config
 , python3
+, s2n
 , stdenv
 , writeText
 , xtensor
@@ -27,7 +33,7 @@ let
     import sys
     import zlib
 
-    raw_bytes = struct.pack("4d", *map(float, range(3, -1, -1)))
+    raw_bytes = struct.pack("4d", 3.0, 2.0, 1.0, 0.0)
     compressed = zlib.compress(raw_bytes, level=1)
 
     with open(sys.argv[1], "wb") as f:
@@ -50,9 +56,10 @@ stdenv.mkDerivation rec {
     ./test-dependencies.patch
   ];
 
-  nativeBuildInputs = [ cmake ];
+  nativeBuildInputs = [ cmake pkg-config ];
 
-  propagatedBuildInputs = [
+  buildInputs = [
+    aws-sdk-cpp
     c-blosc
     cpp-filesystem
     crc32c
@@ -76,19 +83,23 @@ stdenv.mkDerivation rec {
     "-DHAVE_Blosc=ON"
     "-DHAVE_GDAL=ON"
     "-DHAVE_storage_client=ON"
-    "-DHAVE_AWSSDK=OFF" # For some reason the awssdk cannot be found by xtensor-io
+    "-DHAVE_AWSSDK=ON"
+    # For some reason the aws-sdk cannot be found by xtensor-io unless this variable is set
+    "-DAWSSDK_CORE_HEADER_FILE=${aws-sdk-cpp}/include/aws/core/Aws.h"
     "-DBUILD_TESTS=ON"
   ];
 
   doCheck = true;
-  checkInputs = [ gtest python3 ];
+  checkInputs = [ gtest ];
   checkTarget = "xtest";
   preCheck = ''
-    python "${genZlibTestData}" test/files/test.zl
+    ${python3}/bin/python "${genZlibTestData}" test/files/test.zl
   '';
   GTEST_FILTER =
     let
       filteredTests = [
+        "xio_aws_handler.read" # accesses the internet
+        "xio_aws_handler.xfile_array" # accesses the internet
         "xio_gcs_handler.read" # accesses the internet
         "xio_gdal_handler.read_vsicurl" # accesses the internet
         "xio_gdal_handler.read_vsigs" # accesses a file that doesn't exist
