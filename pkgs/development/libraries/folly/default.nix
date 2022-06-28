@@ -12,6 +12,7 @@
 , libiberty
 , libunwind
 , lz4
+, ninja
 , openssl
 , pkg-config
 , xz
@@ -34,6 +35,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     cmake
+    ninja
     pkg-config
   ];
 
