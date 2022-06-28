@@ -8,13 +8,18 @@
 , fmt_8
 , gflags
 , glog
+, libaio
+, libdwarf
 , libevent
 , libiberty
+, libsodium
 , libunwind
+, liburing
 , lz4
 , ninja
 , openssl
 , pkg-config
+, snappy
 , xz
 , zlib
 , zstd
@@ -45,9 +50,14 @@ stdenv.mkDerivation rec {
     double-conversion
     glog
     gflags
+    libaio
+    libdwarf
+    liburing
     libevent
+    libsodium
     libiberty
     openssl
+    snappy
     lz4
     xz
     zlib
@@ -59,13 +69,23 @@ stdenv.mkDerivation rec {
   # jemalloc headers are required in include/folly/portability/Malloc.h
   propagatedBuildInputs = lib.optional stdenv.isLinux jemalloc;
 
-  env.NIX_CFLAGS_COMPILE = toString [ "-DFOLLY_MOBILE=${if follyMobile then "1" else "0"}" "-fpermissive" ];
+  env.NIX_CFLAGS_COMPILE = [
+    "-DFOLLY_MOBILE=${if follyMobile then "1" else "0"}"
+    "-fpermissive"
+    "-mavx2"
+    "-mfma"
+    "-mavx"
+    "-mf16c"
+    "-mlzcnt"
+  ];
   cmakeFlags = [
     "-DBUILD_SHARED_LIBS=ON"
 
     # temporary hack until folly builds work on aarch64,
     # see https://github.com/facebook/folly/issues/1880
     "-DCMAKE_LIBRARY_ARCHITECTURE=${if stdenv.isx86_64 then "x86_64" else "dummy"}"
+    "-Wno-dev"
+    "-DCMAKE_CXX_STANDARD=17"
   ];
 
   postFixup = ''
