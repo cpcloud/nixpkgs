@@ -5,6 +5,7 @@
 , cmake
 , double-conversion
 , fetchpatch
+, re2
 , fmt_8
 , gflags
 , glog
@@ -29,13 +30,13 @@
 
 stdenv.mkDerivation rec {
   pname = "folly";
-  version = "2023.02.13.00";
+  version = "2022.11.14.00";
 
   src = fetchFromGitHub {
     owner = "facebook";
     repo = "folly";
     rev = "v${version}";
-    sha256 = "sha256-YKS+UIlgDhMefovkkR/GlJcZtAjGLC9e8uhqfniH1eY=";
+    sha256 = "sha256-RzVJuhyLZe5KGnNYUxkiAeYdQf4Amm8cAlV/12kmTj4=";
   };
 
   nativeBuildInputs = [
@@ -63,13 +64,14 @@ stdenv.mkDerivation rec {
     zlib
     libunwind
     fmt_8
+    re2
     zstd
   ] ++ lib.optional stdenv.isLinux jemalloc;
 
   # jemalloc headers are required in include/folly/portability/Malloc.h
   propagatedBuildInputs = lib.optional stdenv.isLinux jemalloc;
 
-  env.NIX_CFLAGS_COMPILE = [
+  env.NIX_CFLAGS_COMPILE = toString [
     "-DFOLLY_MOBILE=${if follyMobile then "1" else "0"}"
     "-fpermissive"
     "-mavx2"

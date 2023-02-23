@@ -36,8 +36,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     repo = "velox";
     owner = "facebookincubator";
-    rev = "ad0122779cf7e43655c760dcc4f489f92fcbdd1c";
-    hash = "sha256-JyJ5qn2/gzzzCRLkf7CdYa2SGi8ayPbysdxDzQbv8cI=";
+    rev = "92fbfb9ed5394747f93f3e2acd49b7f1a32617ef";
+    hash = "sha256-uJ0zcYMDN3aSyf+TZRgaM1JJVQ32Kv1caykJgQchCjs=";
     fetchSubmodules = true;
   };
 
@@ -70,9 +70,7 @@ stdenv.mkDerivation rec {
     zstd
   ];
 
-  patches = [ ./cmake.patch ];
-
-  NIX_CFLAGS_COMPILE = [
+  env.NIX_CFLAGS_COMPILE = toString [
     "-mavx2"
     "-mfma"
     "-mavx"

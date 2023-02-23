@@ -43,8 +43,8 @@ let
 in
 {
   fmt_8 = generic {
-    version = "8.1.1";
-    sha256 = "sha256-leb2800CwdZMJRWF5b1Y9ocK0jXpOX/nwo95icDf308=";
+    version = "8.0.1";
+    sha256 = "sha256-fK1SjJ3XhcuZXkXWqeDm9FBJ5/aCWxylaGQAqzTu29Y=";
   };
 
   fmt_9 = generic {
