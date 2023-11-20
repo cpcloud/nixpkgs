@@ -165,7 +165,7 @@ buildPythonPackage rec {
   # Unset ambient PYTHONPATH in the wrapper, so Poetry only ever runs with its own,
   # isolated set of dependencies. This works because the correct PYTHONPATH is set
   # in the Python script, which runs after the wrapper.
-  makeWrapperArgs = ["--unset PYTHONPATH"];
+  makeWrapperArgs = [ "--unset PYTHONPATH" ];
 
   meta = with lib; {
     changelog = "https://github.com/python-poetry/poetry/blob/${src.rev}/CHANGELOG.md";
