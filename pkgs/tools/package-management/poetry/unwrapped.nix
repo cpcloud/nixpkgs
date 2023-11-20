@@ -87,7 +87,7 @@ buildPythonPackage rec {
     tomlkit
     trove-classifiers
     virtualenv
-  ] ++ lib.optionals (stdenv.isDarwin) [
+  ] ++ lib.optionals stdenv.isDarwin [
     xattr
   ] ++ lib.optionals (pythonOlder "3.11") [
     tomli
@@ -112,12 +112,12 @@ buildPythonPackage rec {
     pytest-xdist
   ];
 
-  preCheck = (''
+  preCheck = ''
     export HOME=$TMPDIR
   '' + lib.optionalString (stdenv.isDarwin && stdenv.isAarch64) ''
     # https://github.com/python/cpython/issues/74570#issuecomment-1093748531
     export no_proxy='*';
-  '');
+  '';
 
   postCheck = lib.optionalString (stdenv.isDarwin && stdenv.isAarch64) ''
     unset no_proxy
