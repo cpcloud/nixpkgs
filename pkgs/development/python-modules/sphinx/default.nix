@@ -25,6 +25,7 @@
 , sphinxcontrib-qthelp
 , sphinxcontrib-serializinghtml
 , sphinxcontrib-websupport
+, tomli
 
 # check phase
 , defusedxml
