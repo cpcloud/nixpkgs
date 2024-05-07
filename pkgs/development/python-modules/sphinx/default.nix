@@ -76,6 +76,8 @@ buildPythonPackage rec {
     sphinxcontrib-serializinghtml
     # extra[docs]
     sphinxcontrib-websupport
+  ] ++ lib.optionals (pythonOlder "3.11") [
+    tomli
   ] ++ lib.optionals (pythonOlder "3.10") [
     importlib-metadata
   ];
