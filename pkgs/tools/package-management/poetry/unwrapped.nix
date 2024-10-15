@@ -38,7 +38,7 @@
 
 buildPythonPackage rec {
   pname = "poetry";
-  version = "1.8.3";
+  version = "1.8.4";
   pyproject = true;
 
   disabled = pythonOlder "3.8";
@@ -47,7 +47,7 @@ buildPythonPackage rec {
     owner = "python-poetry";
     repo = "poetry";
     rev = "refs/tags/${version}";
-    hash = "sha256-PPHt9GG5XJzrhnuAS8L+0Pa3El3RNCdEbXbLnHopDWg=";
+    hash = "sha256-pk57Jxf4hkMKLn1pOa9BtHLwLJ6qmXc55TqQN5Vr2k8=";
   };
 
   nativeBuildInputs = [
@@ -81,7 +81,7 @@ buildPythonPackage rec {
     tomlkit
     trove-classifiers
     virtualenv
-  ] ++ lib.optionals (stdenv.hostPlatform.isDarwin) [
+  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
     xattr
   ] ++ lib.optionals (pythonOlder "3.11") [
     tomli
